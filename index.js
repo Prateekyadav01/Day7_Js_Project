@@ -4,6 +4,7 @@
 
 let productList = document.getElementById("product");
 let cartItem = document.getElementById('cartItem');
+let total = document.getElementById('total');
 console.log(cartItem)
 
 Products.forEach(function (product) {
@@ -59,7 +60,7 @@ Products.forEach(function (product) {
 
     decrement.addEventListener("click", function () {
         if (count.textContent > 0) {
-            count.textContent = parseInt(count.textContent) - 1;
+            count.textContent = parseInt(count.textContent) - 1;    
         }
     });
 
@@ -67,35 +68,39 @@ Products.forEach(function (product) {
 
 
 });
+let sum = 0;
+
 function cartChange(cnt, id) {
     let cartItems = cartItem.querySelectorAll('p');
     let found = false;
-    // console.log(cartItems);
+    let itemPrice = Products[id - 1].price;
+
     cartItems.forEach(item => {
         if (item.textContent.includes("Product-" + id)) {
-            let price = Products[id - 1].price * cnt;
-            item.nextElementSibling.textContent = price;
+            let price = item.nextElementSibling.textContent = itemPrice * cnt;
             found = true;
+            sum += price;
         }
     });
 
-    if (!found) {
+    if (!found && cnt > 0) {
         let cartDiv = document.createElement("div");
         let cartPara = document.createElement("p");
         let cartParaPrice = document.createElement("p");
 
         cartPara.textContent = "Product-" + id;
-        cartParaPrice.textContent = (Products[id - 1].price * cnt);
+        cartParaPrice.textContent = itemPrice * cnt;
 
         cartDiv.appendChild(cartPara);
         cartDiv.appendChild(cartParaPrice);
 
         cartItem.appendChild(cartDiv);
+
+        sum += itemPrice * cnt;
     }
 
     if (cartItems.length === 0) {
         let emptyCartMessage = document.createElement("p");
-        // emptyCartMessage.textContent = "Your cart is empty.";
         cartItem.appendChild(emptyCartMessage);
     } else {
         let emptyCartMessage = cartItem.querySelector("p");
@@ -103,7 +108,10 @@ function cartChange(cnt, id) {
             emptyCartMessage.remove();
         }
     }
+
+    total.textContent = sum +".00";
 }
+
 
 
 

@@ -25,7 +25,7 @@
 .product_js{
     display: flex;
     width: 20vw;
-    border: 2px solid black;
+    /* border: 2px solid black; */
     gap: 30px;
 }
 
